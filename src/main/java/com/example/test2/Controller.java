@@ -63,6 +63,7 @@ public class Controller {
         List<Person> l2 = new ArrayList<>();
         l2= ar.stream().filter(Person->Person.getId()==pid).collect(Collectors.toList());
         ar.remove(l2.get(0));
+        System.out.println("change");
         return "Removed";
     }
 

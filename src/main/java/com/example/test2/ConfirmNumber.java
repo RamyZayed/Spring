@@ -3,19 +3,23 @@ package com.example.test2;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+
 public class ConfirmNumber implements ConstraintValidator<PhoneType,String> {
 
-
-
-
+    private Company comp;
     @Override
     public void initialize(PhoneType constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+        this.comp= constraintAnnotation.value();
     }
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return(s.contains("059"));
+
+        if(comp == Company.JAWAL){
+            return s.substring(0,3).equals("059");
+        }else{
+            return s.substring(0,3).equals("056");
+        }
     }
 
 }

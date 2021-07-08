@@ -17,9 +17,8 @@ public class Person {
     @Max(value = 20, message = "Age should be less than 20")
     private  int age;
 
-    @PhoneType
+    @PhoneType(Company.OREDO)
     private String PhoneNumber;
-
     private  int depId;
 
     public Person(){

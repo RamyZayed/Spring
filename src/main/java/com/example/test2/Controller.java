@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Validated
+
 @RestController
 public class Controller {
 
@@ -45,7 +45,7 @@ public class Controller {
     }
 
     @PostMapping(path ="/persons")
-    public void addAll( @RequestBody @NotEmpty(message = "People List can't be empty")  List<@Valid Person> people){
+    public void addAll( @RequestBody @NotEmpty(message = "People List can't be empty") @Validated List< Person> people){
         ar.addAll(people);
 
     }
@@ -58,6 +58,9 @@ public class Controller {
         return ar.stream().filter(Person->Person.getId()==pid).findFirst().get();
 
     }
+    enum lang{
+        arabic,english,french;
+    }
 
     @PutMapping(value = "person/{id}")
     public String update(@PathVariable("id") int pid, @Valid @RequestBody   Person p){
@@ -66,6 +69,8 @@ public class Controller {
         l2.get(0).setAge(p.getAge());
         l2.get(0).setId(p.getId());
         l2.get(0).setName(p.getName());
+        l2.get(0).setPhoneNumber(p.getPhoneNumber());
+        l2.get(0).setDepId(p.getDepId());
         return "UPDATED";
     }
 

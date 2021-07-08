@@ -1,17 +1,24 @@
 package com.example.test2;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.validation.MessageInterpolator;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.executable.ValidateOnExecution;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @RestController
 public class Controller {
 
     List<Person> ar = new ArrayList<>();
+
 
     @PostConstruct
     private void init() {
@@ -31,9 +38,15 @@ public class Controller {
     }
 
     @PostMapping(path = "/person")
-    public Person add(@RequestBody Person b){
+    public Person add(@Valid @RequestBody  Person b){
         ar.add(b);
         return b;
+
+    }
+
+    @PostMapping(path ="/persons")
+    public void addAll( @RequestBody @NotEmpty(message = "People List can't be empty")  List<@Valid Person> people){
+        ar.addAll(people);
 
     }
 
@@ -47,7 +60,7 @@ public class Controller {
     }
 
     @PutMapping(value = "person/{id}")
-    public String update(@PathVariable("id") int pid, @RequestBody   Person p){
+    public String update(@PathVariable("id") int pid, @Valid @RequestBody   Person p){
         List<Person> l2 = new ArrayList<>();
         l2= ar.stream().filter(Person->Person.getId()==pid).collect(Collectors.toList());
         l2.get(0).setAge(p.getAge());
@@ -63,7 +76,6 @@ public class Controller {
         List<Person> l2 = new ArrayList<>();
         l2= ar.stream().filter(Person->Person.getId()==pid).collect(Collectors.toList());
         ar.remove(l2.get(0));
-        System.out.println("Last one");
         return "Removed";
     }
 
@@ -74,5 +86,6 @@ public class Controller {
         return l2;
 
     }
+
 
 }

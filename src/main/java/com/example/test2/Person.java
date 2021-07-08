@@ -1,9 +1,21 @@
 package com.example.test2;
 
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Person {
-    private  int id;
+
+    @NotNull(message = "this id value can't be null")
+    private  Integer id;
+    @NotNull(message = "DONT ---------------------------------------------------\n")
     private  String name;
+    @Min(value = 10, message = "Age should be greater than 10")
+    @Max(value = 20, message = "Age should be less than 20")
     private  int age;
+
     private  int depId;
 
     public Person(){
@@ -50,6 +62,7 @@ public class Person {
 
     public  static class PersonBuilder {
         private  int id;
+
         private String name;
         private int age;
         private int depId;
@@ -66,7 +79,7 @@ public class Person {
         public PersonBuilder setid(int id){
             this.id=id;
             return this;
-        }
+           }
         public PersonBuilder setdepId(int depId){
             this.depId=depId;
             return this;

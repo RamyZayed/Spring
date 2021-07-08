@@ -1,6 +1,7 @@
 package com.example.test2;
 
 
+import javax.validation.Payload;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -16,6 +17,9 @@ public class Person {
     @Max(value = 20, message = "Age should be less than 20")
     private  int age;
 
+    @PhoneType
+    private String PhoneNumber;
+
     private  int depId;
 
     public Person(){
@@ -26,6 +30,7 @@ public class Person {
         this.name= builder.getName();
         this.age =builder.getAge();
         this.depId = builder.getDepId();
+        this.PhoneNumber= builder.getPhoneNumber();
     }
 
     public int getId() {
@@ -43,9 +48,14 @@ public class Person {
         return age;
     }
 
+    public String getPhoneNumber(){return PhoneNumber;}
+
 
     public void setId(int id) {
         this.id = id;
+    }
+    public void setPhoneNumber(String Phonenum){
+        this.PhoneNumber = Phonenum;
     }
 
     public void setName(String name) {
@@ -62,7 +72,7 @@ public class Person {
 
     public  static class PersonBuilder {
         private  int id;
-
+        private String PhoneNumber;
         private String name;
         private int age;
         private int depId;
@@ -84,6 +94,10 @@ public class Person {
             this.depId=depId;
             return this;
         }
+        public PersonBuilder setPhoneNumber(String PhoneNumber) {
+            this.PhoneNumber = PhoneNumber;
+            return this;
+        }
 
         public Person build(){
             return new Person(this);
@@ -103,6 +117,10 @@ public class Person {
         public int getID(){
             return id;
         }
+
+        public String getPhoneNumber() {return PhoneNumber; }
+
+
     }
 
 }

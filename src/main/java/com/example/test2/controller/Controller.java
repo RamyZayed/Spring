@@ -2,6 +2,7 @@ package com.example.test2.controller;
 
 import com.example.test2.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
@@ -29,9 +30,11 @@ public class Controller {
     private void init() {
     }
 
+    @Value("${app.owner}")
+    private String s;
 
     @GetMapping(value = "/person")
-    public List<Person> Person1(@RequestParam int pageNo , @RequestParam int pageSize){
+    public List<Person> Person1(@RequestParam int pageNo , @RequestParam int pageSize) {
      /*   Person build  = new Person.PersonBuilder()
                          .setname("HEH")
                          .setage(21)
@@ -40,12 +43,12 @@ public class Controller {
 
       */
         System.out.println(env.getProperty("app.owner"));
-        int index = pageNo*pageSize;
-        if (index>ar.size())
+        int index = pageNo * pageSize;
+        if (index > ar.size())
             return null;
-        List<Person> wantedList= ar.subList(index,
-                          Math.min(index+pageSize,
-                                 Math.max(ar.size(),index)));
+        List<Person> wantedList = ar.subList(index,
+                Math.min(index + pageSize,
+                        Math.max(ar.size(), index)));
 
         return wantedList;
 
@@ -70,9 +73,6 @@ public class Controller {
 
         return ar.stream().filter(Person->Person.getId()==pid).findFirst().get();
 
-    }
-    enum lang{
-        arabic,english,french;
     }
 
     @PutMapping(value = "person/{id}")

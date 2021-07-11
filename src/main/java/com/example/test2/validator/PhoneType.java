@@ -1,7 +1,6 @@
-package com.example.test2;
+package com.example.test2.validator;
 
 import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
@@ -10,8 +9,6 @@ import java.lang.annotation.*;
 @Target( { ElementType.METHOD, ElementType.FIELD ,ElementType.PARAMETER})
 public @interface PhoneType {
     String message() default "The number should follow {value}";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
     Company value();
 
 }

@@ -1,24 +1,29 @@
-package com.example.test2;
+package com.example.test2.controller;
 
+import com.example.test2.entity.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.validation.MessageInterpolator;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.executable.ValidateOnExecution;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Validated
 @RestController
+@PropertySource("classpath:application.properties")
 public class Controller {
 
     List<Person> ar = new ArrayList<>();
-
+    @Autowired
+    private Environment env;
 
     @PostConstruct
     private void init() {
@@ -26,7 +31,7 @@ public class Controller {
 
 
     @GetMapping(value = "/person")
-    public List<Person> Person1(){
+    public List<Person> Person1(@RequestParam int pageNo , @RequestParam int pageSize){
      /*   Person build  = new Person.PersonBuilder()
                          .setname("HEH")
                          .setage(21)
@@ -34,7 +39,16 @@ public class Controller {
                          .build();
 
       */
-        return ar;
+        System.out.println(env.getProperty("app.owner"));
+        int index = pageNo*pageSize;
+        if (index>ar.size())
+            return null;
+        List<Person> wantedList= ar.subList(index,
+                          Math.min(index+pageSize,
+                                 Math.max(ar.size(),index)));
+
+        return wantedList;
+
     }
 
     @PostMapping(path = "/person")
@@ -47,7 +61,6 @@ public class Controller {
     @PostMapping(path ="/persons")
     public void addAll( @RequestBody @NotEmpty(message = "People List can't be empty") @Validated List< Person> people){
         ar.addAll(people);
-
     }
 
     @GetMapping(value = "/person/{id}")

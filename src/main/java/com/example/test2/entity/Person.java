@@ -1,11 +1,15 @@
-package com.example.test2;
+package com.example.test2.entity;
 
 
-import javax.validation.Payload;
+import com.example.test2.validator.Company;
+import com.example.test2.validator.PhoneType;
+import lombok.Value;
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 
 public class Person {
 
@@ -16,8 +20,7 @@ public class Person {
     @Min(value = 10, message = "Age should be greater than 10")
     @Max(value = 20, message = "Age should be less than 20")
     private  int age;
-
-    @PhoneType(Company.OREDO)
+    @PhoneType(Company.JAWAL)
     private String PhoneNumber;
     private  int depId;
 
